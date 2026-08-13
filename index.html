@@ -1,3 +1,28 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#1e3a8a"/><meta name="description" content="Tell us what you have. We'll find something fun."/><link rel="icon" href="/logo.png"/><title>What Should I Do?</title>  <script type="module" crossorigin src="/assets/index-TxorsaRS.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DsBCDVdT.css">
-</head><body><div id="root"></div></body></html>
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QuizForge</title>
+<style>body{font-family:system-ui;margin:auto;max-width:700px;padding:20px;background:#f4f6fb;color:#182033}.card{background:white;padding:22px;border-radius:20px;margin:12px 0}button{display:block;width:100%;padding:13px;margin:7px 0;border:0;border-radius:12px;background:#635bff;color:white;font-weight:700}h1{font-size:38px}.hidden{display:none}.correct{background:#199c62}.wrong{background:#d94b4b}</style></head>
+<body><div class="card"><h1>⚡ QuizForge</h1><p>Learn. Play. Level up.</p></div>
+<div id="home" class="card"><h2>Choose a quiz</h2><button onclick="start('Science')">🧪 Science</button><button onclick="start('Math')">➗ Math</button><button onclick="start('History')">📜 History</button><button onclick="start('Geography')">🌎 Geography</button><button onclick="start('Trivia')">🧠 Trivia</button></div>
+<div id="quiz" class="card hidden"><b id="num"></b><h2 id="q"></h2><div id="a"></div><p id="msg"></p><button id="next" class="hidden" onclick="next()">Next</button></div>
+<div id="done" class="card hidden"><h2>🎉 Quiz Complete!</h2><h1 id="score"></h1><button onclick="location.reload()">Play Again</button></div>
+<script>
+const data=[
+["Science","Which planet is the Red Planet?",["Venus","Mars","Jupiter","Mercury"],1],
+["Science","What is H2O?",["Salt","Water","Oxygen","Hydrogen"],1],
+["Science","Which organ pumps blood?",["Lung","Heart","Liver","Kidney"],1],
+["Math","5 + 7 = ?",["10","11","12","13"],2],
+["Math","9 × 6 = ?",["45","54","63","72"],1],
+["Math","3 × 7 = ?",["18","21","24","27"],1],
+["History","First U.S. president?",["Jefferson","Lincoln","Washington","Adams"],2],
+["History","World War II ended in?",["1943","1944","1945","1946"],2],
+["Geography","Largest ocean?",["Atlantic","Indian","Pacific","Arctic"],2],
+["Geography","Capital of Japan?",["Kyoto","Tokyo","Osaka","Hiroshima"],1],
+["Trivia","Sides of a hexagon?",["5","6","7","8"],1],
+["Trivia","Days in a leap year?",["364","365","366","367"],2]
+];
+let quiz=[],i=0,s=0;
+function start(cat){quiz=data.filter(x=>x[0]==cat);quiz.sort(()=>Math.random()-.5);i=0;s=0;home.classList.add('hidden');done.classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');render()}
+function render(){let x=quiz[i];num.textContent=`Question ${i+1} / ${quiz.length}`;q.textContent=x[1];msg.textContent='';next.classList.add('hidden');a.innerHTML=x[2].map((v,j)=>`<button onclick="answer(${j})">${v}</button>`).join('')}
+function answer(j){let x=quiz[i],bs=[...a.children];bs.forEach(b=>b.disabled=true);if(j==x[3]){s++;bs[j].classList.add('correct');msg.textContent='Correct! 🎉'}else{bs[j].classList.add('wrong');bs[x[3]].classList.add('correct');msg.textContent='Not quite.'}next.classList.remove('hidden')}
+function next(){if(i==quiz.length-1){quiz.classList.add('hidden');done.classList.remove('hidden');score.textContent=`${s} / ${quiz.length}`}else{i++;render()}}
+</script></body></html>
